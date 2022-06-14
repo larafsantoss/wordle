@@ -1,0 +1,46 @@
+
+/* Create 30 boxes. 6/5. The box can be: 1- Wrong 2-Right 3- Empty 4-right*/
+body {
+    height: 100%;
+
+}
+
+#container {
+    display: grid;
+    width: 100%;
+    height: 500px;
+    place-items: center;
+    color: red;
+}
+
+#parentGrid  {
+    display: grid;
+    grid-template-rows: repeat(6, auto);
+    grid-template-columns: repeat(5, auto);
+}
+
+.box {
+    border: 1px solid;
+    width: 50px;
+    height: 50px;
+    color: #656565;
+    display: grid;
+    place-items: center;
+    text-transform: uppercase;
+    margin: 4px;
+}
+
+.right {
+    background-color: green !important;
+    color: white !important;
+}
+
+.wrong {
+    background-color: gray !important;
+    color: white !important;
+}
+
+.halfRight {
+    background-color: yellow !important;
+    color: white !important;
+}
