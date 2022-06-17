@@ -1,10 +1,10 @@
 console.log('Hello world');
 // create a number of attempts
-let counter = 1;
-let letters = [];
-let rightLetters = generateWord();
+let userAttempt = 1;
+let userChoice = [];
+let computerChoice = generateWord();
 
-console.log(rightLetters)
+console.log(computerChoice)
 
 function generateWord(){
     const words = [
@@ -17,9 +17,9 @@ function generateWord(){
     return words[Math.floor(Math.random() * 5)]
 }
 
-// That's the way I found to delete the letters with backspace
+// That's the way I found to delete the userChoice with backspace
 function removeItem() {
-    letters.pop()
+    userChoice.pop()
 }
 
 document.addEventListener('keyup', function(event){
@@ -27,12 +27,12 @@ document.addEventListener('keyup', function(event){
     if (event.key == 'Backspace') {
     removeItem() 
     } if (event.key.match(/^[A-Za-z]$/)){
-        letters.push(event.key.toUpperCase())
-   
+        userChoice.push(event.key.toUpperCase())
     }
     updateLetters();
-    // console.log(removeItem());
 });
+
+// SHOWING THE LETTER'S TYPED IN THE SQUARES
 
 function updateLetters(){
     for(let index = 0; index < 5; index++){
@@ -43,29 +43,35 @@ function updateLetters(){
         box.classList.remove('halfRight') 
     }
     
-    for (let index = 0; index < letters.length; index++) {
+    for (let index = 0; index < userChoice.length; index++) {
         const box = document.getElementById(index)
-        
-        // counting all the to contanbdo todas as ocorrencias em rightletters
-        let lettersCounter = rightLetters.filter(a => a == letters[index]).length
-        const element = letters[index];
-        box.innerHTML = element
-        // create another array with letters elements + contando todas as ococrrencias ate agora em letters
-        let userCounter = [...letters].slice(0, index).filter(a => a == letters[index]).length
 
-        if(letters[index] === rightLetters[index]) {
-            // verif se teve alguma outra vez que eu digitei mas ela tava na posicao errada
-            // create the if for the words with repeated letters (ex goose)
+// THE LETTER RESULT (GREEN, YELLOW, GREY) COMES UP BY THE SAME TIME OF EACH TYPING - NOT AFTER THE USER TYPES THE WHOLE WORD
+        
+        // Counting how many letters of computerChoice has in userChoice / Matching contanbdo todas as ocorrencias em computerChoice
+        let lettersCounter = computerChoice.filter(a => a == userChoice[index]).length
+        const userLetter = userChoice[index];
+        box.innerHTML = userLetter
+        
+        // creating another array with userChoice (fixed array)
+        let userCounter = [...userChoice].slice(0, index).filter(a => a == userChoice[index]).length
+
+        
+        if(userChoice[index] === computerChoice[index]) {
+
+        // * Checking if the user already typed the letter / Creating an IF for words that have double letters
+           
             if(userCounter >= lettersCounter) {
-                // indexOf da o indice do primeiro elemento que seja igual ao parametro que foi passado (element)
-                const item = document.getElementById(letters.indexOf(element))
-                item.classList.remove('halfRight')
-                item.classList.add('wrong')
+                // indexOf checks the first item
+                const fixingStyle = document.getElementById(userChoice.indexOf(userLetter))
+                fixingStyle.classList.remove('halfRight')
+                fixingStyle.classList.add('wrong')
             }
-            // troquei por uma variavel boxes p receber todos os elementos da classe box
+
+            
             box.classList.add('right')
-            // verificando se a quantidade de ocorrencias ate agora e menor que a quantidade total de ocorrencias em rightletters ver se ja foi encontrando anteriormente mas se nao for suficiente. ex. duas vezes a letra o e o usuario sigitou uma so, ta faltando uma vez
-        } else if(rightLetters.includes(letters[index]) && (userCounter < lettersCounter)) {
+            // verificando se a quantidade de ocorrencias ate agora e menor que a quantidade total de ocorrencias em computerChoice ver se ja foi encontrando anteriormente mas se nao for suficiente. ex. duas vezes a letra o e o usuario sigitou uma so, ta faltando uma vez
+        } else if(computerChoice.includes(userChoice[index]) && (userCounter < lettersCounter)) {
             box.classList.add('halfRight')
             // console.log(userCounter, 'userCounter')
             // console.log(lettersCounter, 'lettersCounter')
@@ -75,23 +81,22 @@ function updateLetters(){
         }
         
     }
-    if (letters.length > 4){
-        if (rightLetters.join('') == letters.join('')){
+    if (userChoice.length > 4){
+        if (computerChoice.join('') == userChoice.join('')){
             // found this way to delay my function and show the message after the last letter
             setTimeout(() => {
-                document.getElementById('message').innerHTML = 'YAY! You win! The word is ' + rightLetters.join('') + '!'
+                document.getElementById('message').innerHTML = 'YAY! You win! The word is ' + computerChoice.join('') + '!'
             }, 100);
             
             return;
         }
-        if(counter > 5){
-            document.getElementById('message').innerHTML = 'LOSER! The right word is ' + rightLetters.join('') + '!'
+        if(userAttempt > 5){
+            document.getElementById('message').innerHTML = 'LOSER! The right word is ' + computerChoice.join('') + '!'
             document.removeEventListener('keyup')
-            // usa o return para ignorar as linhas abaixo dele
             return;
         }
         resetBoxes()
-        counter++
+        userAttempt++
     }
 }
 function resetBoxes() {
@@ -108,5 +113,5 @@ function resetBoxes() {
     <div id="3" class="box"></div>
     <div id="4" class="box"></div>`
     container.appendChild(parentGrid)
-    letters = []
+    userChoice = []
 }
