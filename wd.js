@@ -1,8 +1,19 @@
 console.log('Hello world');
+// counter e a quantidade de tentativas
 let counter = 1;
 let letters = [];
-let rightLetters = ['H','O','R','S','E'];
+let rightLetters = generateWord();
 
+function generateWord(){
+    const words = [
+        ['G','O','O','S','E'],
+        ['A','A','A','A','A'],
+        ['B','B','B','B','B'],
+        ['C','C','C','C','C'],
+        ['D','D','D','D','D']
+    ]
+    return words[Math.floor(Math.random() * 5)]
+}
 function addLetter(letter, index) {
     letters[index] = letter;
 }
@@ -38,9 +49,10 @@ function updateLetters(){
         const element = letters[index];
         box.innerHTML = element
        
-        if(letters[index] == rightLetters[index]) {
-            // troquei por uma variavel boxes p receber todos os elelmentos da classe box
+        if(letters[index] === rightLetters[index]) {
+            // troquei por uma variavel boxes p receber todos os elementos da classe box
             box.classList.add('right')
+            
         } else if(rightLetters.includes(letters[index])){
             box.classList.add('halfRight')
         }
@@ -50,9 +62,18 @@ function updateLetters(){
         
     }
     if (letters.length > 4){
+        if (rightLetters.join('') == letters.join('')){
+            // function que recebe uma fucnao pra ser executada e ele define um tempo para que ela seja executada.
+            setTimeout(() => {
+                alert('Great! that is the right WORD!')
+            }, 100);
+            
+            return;
+        }
         if(counter > 5){
             alert('LOSER!The right word is HORSE')
             document.removeEventListener('keyup')
+            // usa o return para ignorar as linhas abaixo dele
             return;
         }
         resetBoxes()
