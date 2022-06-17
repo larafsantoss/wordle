@@ -46,7 +46,7 @@ function updateLetters(){
     for (let index = 0; index < letters.length; index++) {
         const box = document.getElementById(index)
         
-        // to contanbdo todas as ocorrencias em rightletters
+        // counting all the to contanbdo todas as ocorrencias em rightletters
         let lettersCounter = rightLetters.filter(a => a == letters[index]).length
         const element = letters[index];
         box.innerHTML = element
@@ -55,6 +55,7 @@ function updateLetters(){
 
         if(letters[index] === rightLetters[index]) {
             // verif se teve alguma outra vez que eu digitei mas ela tava na posicao errada
+            // create the if for the words with repeated letters (ex goose)
             if(userCounter >= lettersCounter) {
                 // indexOf da o indice do primeiro elemento que seja igual ao parametro que foi passado (element)
                 const item = document.getElementById(letters.indexOf(element))

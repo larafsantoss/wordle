@@ -14,14 +14,13 @@ body {
 }
 
 #line {
-    width: 250px;
+    width: 100%;
     border: 0.1px solid #6565;
     margin-top: -250px;
 }
 
 .parentGrid  {
     display: grid;
-    /* grid-template-rows: repeat(6, auto); */
     grid-template-columns: repeat(5, auto);
 }
 
@@ -39,16 +38,6 @@ body {
 .cor {
     color: #6565;
 }
-/* .old {
-    border: 1px solid;
-    width: 50px;
-    height: 50px;
-    color: #656565;
-    display: grid;
-    place-items: center;
-    text-transform: uppercase;
-    margin: 4px;
-} */
 
 .right {
     background-color: green !important;
