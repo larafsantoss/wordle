@@ -1,23 +1,23 @@
 console.log('Hello world');
-// counter e a quantidade de tentativas
+// create a number of attempts
 let counter = 1;
 let letters = [];
 let rightLetters = generateWord();
 
+console.log(rightLetters)
+
 function generateWord(){
     const words = [
         ['G','O','O','S','E'],
-        ['A','A','A','A','A'],
-        ['B','B','B','B','B'],
-        ['C','C','C','C','C'],
-        ['D','D','D','D','D']
+        ['H','O','R','S','E'],
+        ['C','L','O','W','N'],
+        ['E','I','G','H','T'],
+        ['A','N','G','E','R']
     ]
     return words[Math.floor(Math.random() * 5)]
 }
-function addLetter(letter, index) {
-    letters[index] = letter;
-}
 
+// That's the way I found to delete the letters with backspace
 function removeItem() {
     letters.pop()
 }
@@ -25,14 +25,14 @@ function removeItem() {
 document.addEventListener('keyup', function(event){
     
     if (event.key == 'Backspace') {
-    removeItem() }
-    if (event.key.match(/^[A-Za-z]$/)){
+    removeItem() 
+    } if (event.key.match(/^[A-Za-z]$/)){
         letters.push(event.key.toUpperCase())
-        updateLetters();
+   
     }
-    
-    // console.log('keyup');
-})
+    updateLetters();
+    // console.log(removeItem());
+});
 
 function updateLetters(){
     for(let index = 0; index < 5; index++){
@@ -46,15 +46,28 @@ function updateLetters(){
     for (let index = 0; index < letters.length; index++) {
         const box = document.getElementById(index)
         
+        // to contanbdo todas as ocorrencias em rightletters
+        let lettersCounter = rightLetters.filter(a => a == letters[index]).length
         const element = letters[index];
         box.innerHTML = element
-       
+        // create another array with letters elements + contando todas as ococrrencias ate agora em letters
+        let userCounter = [...letters].slice(0, index).filter(a => a == letters[index]).length
+
         if(letters[index] === rightLetters[index]) {
+            // verif se teve alguma outra vez que eu digitei mas ela tava na posicao errada
+            if(userCounter >= lettersCounter) {
+                // indexOf da o indice do primeiro elemento que seja igual ao parametro que foi passado (element)
+                const item = document.getElementById(letters.indexOf(element))
+                item.classList.remove('halfRight')
+                item.classList.add('wrong')
+            }
             // troquei por uma variavel boxes p receber todos os elementos da classe box
             box.classList.add('right')
-            
-        } else if(rightLetters.includes(letters[index])){
+            // verificando se a quantidade de ocorrencias ate agora e menor que a quantidade total de ocorrencias em rightletters ver se ja foi encontrando anteriormente mas se nao for suficiente. ex. duas vezes a letra o e o usuario sigitou uma so, ta faltando uma vez
+        } else if(rightLetters.includes(letters[index]) && (userCounter < lettersCounter)) {
             box.classList.add('halfRight')
+            // console.log(userCounter, 'userCounter')
+            // console.log(lettersCounter, 'lettersCounter')
         }
         else {
             box.classList.add('wrong')
@@ -63,15 +76,15 @@ function updateLetters(){
     }
     if (letters.length > 4){
         if (rightLetters.join('') == letters.join('')){
-            // function que recebe uma fucnao pra ser executada e ele define um tempo para que ela seja executada.
+            // found this way to delay my function and show the message after the last letter
             setTimeout(() => {
-                alert('Great! that is the right WORD!')
+                document.getElementById('message').innerHTML = 'YAY! You win! The word is ' + rightLetters.join('') + '!'
             }, 100);
             
             return;
         }
         if(counter > 5){
-            alert('LOSER!The right word is HORSE')
+            document.getElementById('message').innerHTML = 'LOSER! The right word is ' + rightLetters.join('') + '!'
             document.removeEventListener('keyup')
             // usa o return para ignorar as linhas abaixo dele
             return;
